@@ -1,25 +1,40 @@
-# mem_alloc_demo.py
-import mmap, os, time
+import os
+import time
 
-MB = 1024 * 1024
-SIZE = 512 * MB
-PAGE = os.sysconf("SC_PAGE_SIZE")
+print("Memory Allocation Demo")
+print("----------------------")
+print("PID:", os.getpid())
 
-def show(label):
-    print("
----", label, "pid", os.getpid(), "---")
-    with open(f"/proc/{os.getpid()}/status") as f:
-        for line in f:
-            if line.startswith(("VmSize", "VmRSS", "VmData")):
-                print(line.strip())
+input("\nPress Enter to start...")
 
-show("start")
-buf = mmap.mmap(-1, SIZE)
-show("after mmap reservation")
-time.sleep(20)
+chunks = []
 
-for i in range(0, SIZE, PAGE):
-    buf[i:i+1] = b"x"
-show("after touching each page")
-time.sleep(60)
+# Allocate memory in steps
+for i in range(5):
+    print(f"\nStep {i + 1}: allocating 100 MB...")
 
+    # Allocate 100 MB and touch the memory
+    block = bytearray(100 * 1024 * 1024)
+
+    # Touch one byte on each 4 KB page
+    # so physical memory is actually committed
+    for j in range(0, len(block), 4096):
+        block[j] = 1
+
+    chunks.append(block)
+
+    print(f"Total allocated: {(i + 1) * 100} MB")
+    print("Check memory usage now.")
+    print(f"Try: pmap -x {os.getpid()} | tail")
+    print(f"Or:  ps -o pid,vsz,rss,cmd -p {os.getpid()}")
+
+    input("Press Enter to allocate another 100 MB...")
+
+print("\nFinished allocating 500 MB.")
+print("The memory will stay allocated until the program exits.")
+
+input("Press Enter to release the memory and exit...")
+
+chunks.clear()
+
+print("Memory released.")
