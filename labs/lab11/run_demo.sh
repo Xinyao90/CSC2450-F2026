@@ -1,52 +1,40 @@
 #!/usr/bin/env bash
-# Run seven bounded tests and save their actual output to results.txt.
-# This script contains no programming task for students.
+# Complete supplied demonstration: no source editing is required.
+# Build one program, run it ONCE, and display a small excerpt of its real output.
 set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-if ! command -v timeout >/dev/null 2>&1; then
-    echo "This script needs Linux timeout. Use the Linux class server." >&2
-    exit 1
-fi
-for program in buffer_cv buffer_one buffer_sem; do
-    if [[ ! -x "./$program" ]]; then
-        echo "Missing $program. Run: bash build.sh" >&2
+for tool in gcc timeout; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+        printf 'Missing %s. Use the Linux class server and ask the instructor.\n' "$tool" >&2
         exit 1
     fi
 done
-if [[ -e results.txt ]]; then
-    backup=$(mktemp results.previous.XXXXXX.txt)
-    cp -- results.txt "$backup"
-    echo "Previous evidence kept in $backup."
+if [[ ! -f demos/bounded_buffer_cv.c ]]; then
+    echo 'Missing supplied source. Extract the entire lab11_brief folder; do not edit the code.' >&2
+    exit 1
 fi
-failed=0
-run_case() {
-    local label=$1 program=$2 rc
-    printf '\n=== %s ===\n' "$label"
-    printf '$ timeout 10s ./%s\n' "$program"
-    if timeout 10s "./$program"; then
-        rc=0
-    else
-        rc=$?
-        failed=$((failed + 1))
-    fi
-    printf 'Exit status: %s\n' "$rc"
-    if [[ "$rc" -eq 124 ]]; then
-        echo 'TIME LIMIT reached. Keep this output and ask the instructor; do not edit the source.'
-    elif [[ "$rc" -ne 0 ]]; then
-        echo 'UNEXPECTED RESULT. Keep this output and ask the instructor.'
-    fi
-}
-{
-    printf 'Lab 11 - actual execution evidence\n'
-    printf 'User: %s\n' "${USER:-unknown}"
-    printf 'Time: %s\n' "$(date -Iseconds)"
-    for trial in 1 2 3 4 5; do
-        run_case "CV capacity 4, trial $trial" buffer_cv
-    done
-    run_case 'CV capacity 1, trial 6' buffer_one
-    run_case 'Semaphore capacity 4, trial 7' buffer_sem
-    printf '\nCompleted seven tests; nonzero exits: %s\n' "$failed"
-    if [[ "$failed" -ne 0 ]]; then
-        exit 1
-    fi
-} 2>&1 | tee results.txt
+printf 'Lab 11 | One-slot producer-consumer observation\n'
+printf 'Preparing the complete supplied demonstration...\n'
+gcc -std=c11 -O0 -Wall -Wextra -pthread -DCAPACITY=1 \
+    demos/bounded_buffer_cv.c -o buffer_one
+if [[ -e demo_output.txt ]]; then
+    backup=$(mktemp demo_output.previous.XXXXXX.txt)
+    cp -- demo_output.txt "$backup"
+    printf 'Previous run saved as %s\n' "$backup"
+fi
+printf 'Running once (10-second limit).\n'
+rc=0
+timeout 10s ./buffer_one --trace > demo_output.txt 2>&1 || rc=$?
+if [[ "$rc" -ne 0 ]]; then
+    cat demo_output.txt
+    printf '\nRun did not complete successfully (exit %s).\n' "$rc" >&2
+    printf 'Keep the output and ask the instructor; do not change C code.\n' >&2
+    exit "$rc"
+fi
+printf '\nFirst four queue operations (excerpt; count is AFTER each operation):\n'
+head -n 4 demo_output.txt
+printf '\nFinal summary (after all workers finish):\n'
+# Select actual summary lines; do not replace results with expected values.
+grep -E '^(capacity=|produced=|PASS:|FAIL:)' demo_output.txt
+printf '\nFull output saved in demo_output.txt; no full-log submission is required.\n'
+printf 'Submit ONE screenshot of this screen and your THREE short answers.\n'
