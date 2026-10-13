@@ -7,7 +7,7 @@ Run two complete supplied programs once each, then explain their different behav
 Extract the entire `lab12_observe` folder on the Linux class server. Run:
 
 ```bash
-cd lab12_observe
+cd lab12
 bash run_demo.sh
 ```
 
