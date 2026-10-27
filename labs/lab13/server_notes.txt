@@ -1,0 +1,19 @@
+CSC-2450 SERVER HANDOFF NOTES
+
+Host: csc2450-server
+Primary service: ssh
+Service owner: operations
+Backup status: pending
+Maintenance window: Friday 22:00
+
+CHECKLIST
+- confirm disk space
+- review failed login attempts
+- verify backup archive
+- record the final status
+
+STATUS LOG
+2026-10-16 08:00 ssh active
+2026-10-16 08:05 backup pending
+2026-10-16 08:10 disk usage normal
+2026-10-16 08:15 failed login reviewed
