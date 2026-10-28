@@ -1,0 +1,5 @@
+SYNTHETIC PRINT-QUEUE SAMPLE — no actual printer was contacted
+Submission response: request id is classroom-42
+Queue observation: classroom-42  student  1024 bytes  waiting
+Conclusion: the job was accepted and remains queued.
+There is no evidence here that paper output has completed.

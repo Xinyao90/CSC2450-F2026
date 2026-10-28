@@ -1,0 +1,6 @@
+SYNTHETIC TEACHING SAMPLE — not live server output
+Command: dpkg -s bash
+Package: bash
+Status: install ok installed
+Version: SAMPLE-VERSION
+Description: GNU Bourne Again SHell

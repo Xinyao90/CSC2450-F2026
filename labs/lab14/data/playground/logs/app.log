@@ -1,0 +1,4 @@
+INFO:web:started
+ERROR:web:timeout while contacting the classroom demonstration service
+WARN:web:retry scheduled for the demonstration
+INFO:web:ready

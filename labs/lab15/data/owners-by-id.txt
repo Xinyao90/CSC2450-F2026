@@ -1,0 +1,3 @@
+svc03 team-data
+svc01 team-web
+svc02 team-auth

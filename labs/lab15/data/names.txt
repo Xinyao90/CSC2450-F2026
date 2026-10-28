@@ -1,0 +1,8 @@
+gzip
+bzip2
+bzcat
+zip
+unzip
+zipgrep
+xzip
+lzcat

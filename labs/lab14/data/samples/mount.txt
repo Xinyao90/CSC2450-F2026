@@ -1,0 +1,3 @@
+SYNTHETIC TEACHING SAMPLE — not live server output
+/dev/sdb1 on /mnt/course type ext4 (rw)
+proc on /proc type proc (rw)

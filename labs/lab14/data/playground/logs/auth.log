@@ -1,0 +1,3 @@
+INFO:auth:login
+ERROR:auth:denied
+INFO:auth:logout

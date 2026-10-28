@@ -1,0 +1,6 @@
+SYNTHETIC TEACHING SAMPLE — not live server output
+Interface excerpt: lo: <LOOPBACK,UP>
+Address excerpt: inet 127.0.0.1/8 scope host lo
+Probe summary: 3 packets transmitted, 3 received, 0% packet loss
+Interpretation: the local loopback probe received responses.
+This does not establish Internet access.

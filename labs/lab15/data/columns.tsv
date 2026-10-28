@@ -1,0 +1,3 @@
+web	running	team-web
+auth	running	team-auth
+db	degraded	team-data

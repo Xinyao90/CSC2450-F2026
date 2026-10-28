@@ -1,0 +1,12 @@
+ILLUSTRATIVE BUILD TRANSCRIPT — not evidence of your own execution
+$ make
+cc -Wall -Wextra -std=c11 -o hello hello.c
+$ ./hello
+Hello from the supplied build demo.
+$ make
+make: 'hello' is up to date.
+$ sleep 1
+$ touch hello.c
+$ make
+cc -Wall -Wextra -std=c11 -o hello hello.c
+Explanation: hello.c is now newer than the declared target hello.

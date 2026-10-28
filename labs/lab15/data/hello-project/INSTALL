@@ -1,0 +1,10 @@
+Local build instructions
+========================
+Prerequisites: make and a C compiler named cc (instructor-provided).
+This project includes a Makefile; it does NOT provide configure.
+Run: make
+Run: ./hello
+Run make again; it should be up to date.
+Then run sleep 1; touch hello.c; make and observe the rebuild.
+No install target is provided. Do not use sudo.
+If the toolchain is unavailable, analyze ../samples/build.txt instead.

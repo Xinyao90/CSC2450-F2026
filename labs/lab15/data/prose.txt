@@ -1,0 +1,3 @@
+A useful administrative report states the question, the input data, and the result. It should also explain what was checked and what was not checked.
+
+A pipeline becomes easier to debug when each intermediate result is small enough to inspect.

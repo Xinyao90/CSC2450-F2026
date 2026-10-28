@@ -1,0 +1,12 @@
+INFO:web:started
+ERROR:web:timeout
+WARN:db:slow query
+ERROR:auth:denied
+INFO:auth:login
+ERROR:web:reset
+ERROR:db:disk full
+INFO:db:ready
+WARN:web:retry
+ERROR:web:timeout
+INFO:backup:finished
+INFO:web:ready
