@@ -23,7 +23,7 @@ from pathlib import Path
 import sys
 
 
-LAB_DIRECTORY = "lab20"
+LAB_DIRECTORY = "l20-files-lab"
 UPDATE_NAMES = {"I": "I[v2]", "B": "B[v2]", "D": "Db"}
 ALL_UPDATES = frozenset(UPDATE_NAMES)
 NOTE = (
@@ -117,13 +117,13 @@ def show_state(state, heading="Home locations"):
 def setup(args):
     """Create one new lab directory; do not overwrite or remove any entry.
 
-    The default workspace is the course directory. --workspace exists for
+    The default workspace is the current working directory. --workspace exists for
     instructor testing or an assigned alternate workspace, not device paths.
     mkdir(exist_ok=False) rejects an existing directory or symlink. File
     mode 'x' likewise rejects existing names. A failed setup leaves its
     newly made entries in place for inspection instead of deleting them.
     """
-    workspace = args.workspace.expanduser()
+    workspace = args.workspace.expanduser().resolve()
     workspace.mkdir(parents=True, exist_ok=True)
     destination = workspace / LAB_DIRECTORY
     try:
@@ -131,7 +131,8 @@ def setup(args):
     except FileExistsError:
         raise SystemExit(
             "Setup stopped: {} already exists. Nothing was overwritten.\n"
-            "Use the worksheet's labeled sample, or ask for a fresh lab location.".format(destination)
+            "Use the existing lab files if untouched, or choose a fresh parent with --workspace.\n"
+            "No existing files will be reset automatically.".format(destination)
         )
     with (destination / "foo").open("x", encoding="utf-8", newline="\n") as stream:
         stream.write("hello\n")
@@ -141,6 +142,7 @@ def setup(args):
     print("Folder: " + str(destination))
     print("foo contains 6 bytes; lab-info.txt contains {} bytes.".format(len(NOTE.encode("utf-8"))))
     print("No files were overwritten or removed. No links have been made yet.")
+    print("Enter the folder with: cd '{}'".format(destination))
     print("Follow the worksheet commands in this folder.")
 
 
@@ -225,8 +227,8 @@ def main(argv=None):
     )
     commands = parser.add_subparsers(dest="command", required=True)
     make = commands.add_parser("setup", help="create a new Lecture 20 directory with a 6-byte foo")
-    make.add_argument("--workspace", type=Path, default=Path.home() / "csc2450-work",
-                      help="parent workspace; default: ~/csc2450-work")
+    make.add_argument("--workspace", type=Path, default=Path.cwd(),
+                      help="parent workspace; default: current working directory")
     make.set_defaults(run=setup)
     read = commands.add_parser("lookup", help="trace the book's cold open of /foo/bar")
     read.set_defaults(run=lookup)
