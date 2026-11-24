@@ -23,7 +23,7 @@ from pathlib import Path
 import sys
 
 
-LAB_DIRECTORY = "l20-files-lab"
+LAB_DIRECTORY = "lab20"
 UPDATE_NAMES = {"I": "I[v2]", "B": "B[v2]", "D": "Db"}
 ALL_UPDATES = frozenset(UPDATE_NAMES)
 NOTE = (
